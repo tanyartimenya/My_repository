@@ -1,0 +1,65 @@
+CREATE SEQUENCE bl_3nf.store_id_seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;
+ 
+ CREATE SEQUENCE bl_3nf.country_id_seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;  
+ 
+ CREATE SEQUENCE bl_3nf.city_id_seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;  
+ 
+ CREATE SEQUENCE bl_3nf.product_id_seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;  
+ 
+ CREATE SEQUENCE bl_3nf.employee_position_id_seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;
+ 
+ CREATE SEQUENCE bl_3nf.payment_type_id_seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;  
+ 
+ CREATE SEQUENCE bl_3nf.channel_id_seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE; 
+ 
+ CREATE SEQUENCE bl_3nf.address_id_seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE; 
+ 
+CREATE SEQUENCE bl_3nf.customers_geo_id_seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE; 
+ 
+ CREATE SEQUENCE bl_3nf.employee_id_seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;
+ 
+ CREATE SEQUENCE bl_3nf.payment_id_seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;

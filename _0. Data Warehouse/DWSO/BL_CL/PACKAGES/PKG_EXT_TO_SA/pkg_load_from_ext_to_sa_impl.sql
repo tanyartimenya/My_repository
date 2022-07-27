@@ -1,0 +1,255 @@
+CREATE OR REPLACE PACKAGE BODY PKG_LOAD_FROM_EXT_TO_SA AS
+
+--------------------PROCEDURE PRC_LOAD_SRC_GET_QUICK_STORE-----------------------------
+
+    PROCEDURE PRC_LOAD_SRC_GET_QUICK_STORE
+    IS 
+    BEGIN
+    
+MERGE INTO SA_AMOCRM.SRC_GET_QUICK_STORE SRC
+USING ( SELECT  TRANSACTION_ID, TRANSACTION_DATE, ITEM_CODE, ITEM_DESCRIPTION, NUMBER_OF_ITEMS, COST_PER_ITEM, CUST_ID, 
+                FIRST_NAME, LAST_NAME, ADDRESS_FULL, ADDRESS_SHORT, CITY, COUNTRY, ISO_CODE_COUNTRY, PAYMENT_TYPE, CHANNEL, STORE_ID,
+                STORE_NAME, EMPLOYEE_FIRST_NAME, EMPLOYEE_LAST_NAME, EMPLOYEE_POSITION , EMPLOYEE_ID , START_DATE, END_DATE, UPDATE_DATE
+        FROM EXT_AMOCRM.GET_QUICK_STORE_EXT) EXT
+ON (SRC.TRANSACTION_ID=EXT.TRANSACTION_ID)
+WHEN MATCHED THEN UPDATE SET
+                SRC.TRANSACTION_DATE 	= EXT.TRANSACTION_DATE,
+                SRC.ITEM_CODE 			= EXT.ITEM_CODE ,
+                SRC.ITEM_DESCRIPTION 	= EXT.ITEM_DESCRIPTION,
+                SRC.NUMBER_OF_ITEMS 	= EXT.NUMBER_OF_ITEMS,
+                SRC.COST_PER_ITEM 		= EXT.COST_PER_ITEM,
+                SRC.CUST_ID 			= EXT.CUST_ID,
+                SRC.FIRST_NAME 			= EXT.FIRST_NAME,
+                SRC.LAST_NAME 			= EXT.LAST_NAME,
+                SRC.ADDRESS_FULL 		= EXT.ADDRESS_FULL,
+                SRC.ADDRESS_SHORT 		= EXT.ADDRESS_SHORT,
+                SRC.CITY 			    = EXT.CITY,
+                SRC.COUNTRY 			= EXT.COUNTRY,
+                SRC.ISO_CODE_COUNTRY 	= EXT.ISO_CODE_COUNTRY,
+                SRC.PAYMENT_TYPE 		= EXT.PAYMENT_TYPE,
+                SRC.CHANNEL 			= EXT.CHANNEL,
+                SRC.STORE_ID 			= EXT.STORE_ID,
+                SRC.STORE_NAME 	        = EXT.STORE_NAME,
+                SRC.EMPLOYEE_FIRST_NAME = EXT.EMPLOYEE_FIRST_NAME,
+                SRC.EMPLOYEE_LAST_NAME 	= EXT.EMPLOYEE_LAST_NAME,
+                SRC.EMPLOYEE_POSITION 	= EXT.EMPLOYEE_POSITION,
+                SRC.EMPLOYEE_ID 		= EXT.EMPLOYEE_ID,
+                SRC.START_DATE 	        = EXT.START_DATE,
+                SRC.END_DATE 		    = EXT.END_DATE,
+                SRC.UPDATE_DATE 		= EXT.UPDATE_DATE
+WHERE           (DECODE(SRC.TRANSACTION_ID, EXT.TRANSACTION_ID, 0,1)+
+                DECODE(SRC.TRANSACTION_DATE, EXT.TRANSACTION_DATE,0,1)+
+                DECODE(SRC.ITEM_CODE, EXT.ITEM_CODE, 0,1)+
+                DECODE(SRC.ITEM_DESCRIPTION, EXT.ITEM_DESCRIPTION , 0,1)+
+                DECODE(SRC.NUMBER_OF_ITEMS,EXT.NUMBER_OF_ITEMS, 0,1)+
+                DECODE(SRC.COST_PER_ITEM, EXT.COST_PER_ITEM, 0,1)+
+                DECODE(SRC.CUST_ID, EXT.CUST_ID, 0,1)+
+                DECODE(SRC.FIRST_NAME, EXT.FIRST_NAME, 0,1)+
+                DECODE(SRC.LAST_NAME,EXT.LAST_NAME, 0,1)+
+                DECODE(SRC.ADDRESS_FULL,EXT.ADDRESS_FULL, 0,1)+
+                DECODE(SRC.ADDRESS_SHORT, EXT.ADDRESS_SHORT, 0,1)+
+                DECODE(SRC.CITY,EXT.CITY, 0,1)+
+                DECODE(SRC.COUNTRY,EXT.COUNTRY, 0,1)+
+                DECODE(SRC.ISO_CODE_COUNTRY,EXT.ISO_CODE_COUNTRY, 0,1)+
+                DECODE(SRC.PAYMENT_TYPE,EXT.PAYMENT_TYPE, 0,1)+
+                DECODE(SRC.CHANNEL,EXT.CHANNEL, 0,1)+
+                DECODE(SRC.STORE_ID,EXT.STORE_ID, 0,1)+
+                DECODE(SRC.STORE_NAME,EXT.STORE_NAME, 0,1)+
+                DECODE(SRC.EMPLOYEE_FIRST_NAME,EXT.EMPLOYEE_FIRST_NAME, 0,1)+
+                DECODE(SRC.EMPLOYEE_LAST_NAME,EXT.EMPLOYEE_LAST_NAME, 0,1)+
+                DECODE(SRC.EMPLOYEE_POSITION,EXT.EMPLOYEE_POSITION, 0,1)+
+                DECODE(SRC.EMPLOYEE_ID,EXT.EMPLOYEE_ID, 0,1)+
+                DECODE(SRC.START_DATE,EXT.START_DATE, 0,1)+
+                DECODE(SRC.END_DATE,EXT.END_DATE, 0,1)+
+                DECODE(SRC.UPDATE_DATE ,EXT.UPDATE_DATE, 0,1))>0  
+WHEN NOT MATCHED THEN INSERT 
+                (SRC.TRANSACTION_ID, 
+                SRC.TRANSACTION_DATE,
+                SRC.ITEM_CODE,
+                SRC.ITEM_DESCRIPTION,
+                SRC.NUMBER_OF_ITEMS,
+                SRC.COST_PER_ITEM,
+                SRC.CUST_ID,
+                SRC.FIRST_NAME,
+                SRC.LAST_NAME,
+                SRC.ADDRESS_FULL,
+                SRC.ADDRESS_SHORT,
+                SRC.CITY,
+                SRC.COUNTRY,
+                SRC.ISO_CODE_COUNTRY,
+                SRC.PAYMENT_TYPE,
+                SRC.CHANNEL,
+                SRC.STORE_ID,
+                SRC.STORE_NAME,
+                SRC.EMPLOYEE_FIRST_NAME,
+                SRC.EMPLOYEE_LAST_NAME,
+                SRC.EMPLOYEE_POSITION,
+                SRC.EMPLOYEE_ID,
+                SRC.START_DATE,
+                SRC.END_DATE,
+                SRC.UPDATE_DATE,
+                INSERT_DATE)
+    VALUES      (EXT.TRANSACTION_ID, 
+                EXT.TRANSACTION_DATE,
+                EXT.ITEM_CODE,
+                EXT.ITEM_DESCRIPTION,
+                EXT.NUMBER_OF_ITEMS,
+                EXT.COST_PER_ITEM,
+                EXT.CUST_ID,
+                EXT.FIRST_NAME,
+                EXT.LAST_NAME,
+                EXT.ADDRESS_FULL,
+                EXT.ADDRESS_SHORT,
+                EXT.CITY,
+                EXT.COUNTRY,
+                EXT.ISO_CODE_COUNTRY,
+                EXT.PAYMENT_TYPE,
+                EXT.CHANNEL,
+                EXT.STORE_ID,
+                EXT.STORE_NAME,
+                EXT.EMPLOYEE_FIRST_NAME,
+                EXT.EMPLOYEE_LAST_NAME,
+                EXT.EMPLOYEE_POSITION,
+                EXT.EMPLOYEE_ID,
+                EXT.START_DATE,
+                EXT.END_DATE,
+                EXT.UPDATE_DATE,
+                SYSDATE);
+COMMIT;
+            EXCEPTION
+               WHEN OTHERS
+               THEN
+                  DBMS_OUTPUT.PUT_LINE ('Update table failed.');
+                ROLLBACK;
+    END PRC_LOAD_SRC_GET_QUICK_STORE;
+
+
+--------------------PROCEDURE PRC_LOAD_SRC_EXPRESS_BAZAAR-----------------------------    
+
+    PROCEDURE PRC_LOAD_SRC_EXPRESS_BAZAAR
+    IS
+    BEGIN
+    
+MERGE INTO SA_RETAIL_CRM.SRC_EXPRESS_BAZAAR SRC
+USING ( SELECT  TRANSACTION_ID, TRANSACTION_DATE, ITEM_CODE, ITEM_DESCRIPTION, NUMBER_OF_ITEMS, COST_PER_ITEM, CUST_ID, 
+                FIRST_NAME, LAST_NAME, ADDRESS_FULL, ADDRESS_SHORT, CITY, COUNTRY, ISO_CODE_COUNTRY, PAYMENT_TYPE, CHANNEL, STORE_ID,
+                STORE_NAME, EMPLOYEE_FIRST_NAME, EMPLOYEE_LAST_NAME, EMPLOYEE_POSITION , EMPLOYEE_ID , START_DATE, END_DATE, UPDATE_DATE
+        FROM EXT_RETAIL_CRM.EXPRESS_BAZAAR_EXT) EXT
+ON (SRC.TRANSACTION_ID=EXT.TRANSACTION_ID)
+WHEN MATCHED THEN UPDATE SET
+                SRC.TRANSACTION_DATE 	= EXT.TRANSACTION_DATE,
+                SRC.ITEM_CODE 			= EXT.ITEM_CODE ,
+                SRC.ITEM_DESCRIPTION 	= EXT.ITEM_DESCRIPTION,
+                SRC.NUMBER_OF_ITEMS 	= EXT.NUMBER_OF_ITEMS,
+                SRC.COST_PER_ITEM 		= EXT.COST_PER_ITEM,
+                SRC.CUST_ID 			= EXT.CUST_ID,
+                SRC.FIRST_NAME 			= EXT.FIRST_NAME,
+                SRC.LAST_NAME 			= EXT.LAST_NAME,
+                SRC.ADDRESS_FULL 		= EXT.ADDRESS_FULL,
+                SRC.ADDRESS_SHORT 		= EXT.ADDRESS_SHORT,
+                SRC.CITY 			    = EXT.CITY,
+                SRC.COUNTRY 			= EXT.COUNTRY,
+                SRC.ISO_CODE_COUNTRY 	= EXT.ISO_CODE_COUNTRY,
+                SRC.PAYMENT_TYPE 		= EXT.PAYMENT_TYPE,
+                SRC.CHANNEL 			= EXT.CHANNEL,
+                SRC.STORE_ID 			= EXT.STORE_ID,
+                SRC.STORE_NAME 	        = EXT.STORE_NAME,
+                SRC.EMPLOYEE_FIRST_NAME = EXT.EMPLOYEE_FIRST_NAME,
+                SRC.EMPLOYEE_LAST_NAME 	= EXT.EMPLOYEE_LAST_NAME,
+                SRC.EMPLOYEE_POSITION 	= EXT.EMPLOYEE_POSITION,
+                SRC.EMPLOYEE_ID 		= EXT.EMPLOYEE_ID,
+                SRC.START_DATE 	        = EXT.START_DATE,
+                SRC.END_DATE 		    = EXT.END_DATE,
+                SRC.UPDATE_DATE 		= EXT.UPDATE_DATE
+WHERE           (DECODE(SRC.TRANSACTION_ID, EXT.TRANSACTION_ID, 0,1)+
+                DECODE(SRC.TRANSACTION_DATE, EXT.TRANSACTION_DATE,0,1)+
+                DECODE(SRC.ITEM_CODE, EXT.ITEM_CODE, 0,1)+
+                DECODE(SRC.ITEM_DESCRIPTION, EXT.ITEM_DESCRIPTION , 0,1)+
+                DECODE(SRC.NUMBER_OF_ITEMS,EXT.NUMBER_OF_ITEMS, 0,1)+
+                DECODE(SRC.COST_PER_ITEM, EXT.COST_PER_ITEM, 0,1)+
+                DECODE(SRC.CUST_ID, EXT.CUST_ID, 0,1)+
+                DECODE(SRC.FIRST_NAME, EXT.FIRST_NAME, 0,1)+
+                DECODE(SRC.LAST_NAME,EXT.LAST_NAME, 0,1)+
+                DECODE(SRC.ADDRESS_FULL,EXT.ADDRESS_FULL, 0,1)+
+                DECODE(SRC.ADDRESS_SHORT, EXT.ADDRESS_SHORT, 0,1)+
+                DECODE(SRC.CITY,EXT.CITY, 0,1)+
+                DECODE(SRC.COUNTRY,EXT.COUNTRY, 0,1)+
+                DECODE(SRC.ISO_CODE_COUNTRY,EXT.ISO_CODE_COUNTRY, 0,1)+
+                DECODE(SRC.PAYMENT_TYPE,EXT.PAYMENT_TYPE, 0,1)+
+                DECODE(SRC.CHANNEL,EXT.CHANNEL, 0,1)+
+                DECODE(SRC.STORE_ID,EXT.STORE_ID, 0,1)+
+                DECODE(SRC.STORE_NAME,EXT.STORE_NAME, 0,1)+
+                DECODE(SRC.EMPLOYEE_FIRST_NAME,EXT.EMPLOYEE_FIRST_NAME, 0,1)+
+                DECODE(SRC.EMPLOYEE_LAST_NAME,EXT.EMPLOYEE_LAST_NAME, 0,1)+
+                DECODE(SRC.EMPLOYEE_POSITION,EXT.EMPLOYEE_POSITION, 0,1)+
+                DECODE(SRC.EMPLOYEE_ID,EXT.EMPLOYEE_ID, 0,1)+
+                DECODE(SRC.START_DATE,EXT.START_DATE, 0,1)+
+                DECODE(SRC.END_DATE,EXT.END_DATE, 0,1)+
+                DECODE(SRC.UPDATE_DATE ,EXT.UPDATE_DATE, 0,1))>0
+        
+WHEN NOT MATCHED THEN INSERT 
+                (SRC.TRANSACTION_ID, 
+                SRC.TRANSACTION_DATE,
+                SRC.ITEM_CODE,
+                SRC.ITEM_DESCRIPTION,
+                SRC.NUMBER_OF_ITEMS,
+                SRC.COST_PER_ITEM,
+                SRC.CUST_ID,
+                SRC.FIRST_NAME,
+                SRC.LAST_NAME,
+                SRC.ADDRESS_FULL,
+                SRC.ADDRESS_SHORT,
+                SRC.CITY,
+                SRC.COUNTRY,
+                SRC.ISO_CODE_COUNTRY,
+                SRC.PAYMENT_TYPE,
+                SRC.CHANNEL,
+                SRC.STORE_ID,
+                SRC.STORE_NAME,
+                SRC.EMPLOYEE_FIRST_NAME,
+                SRC.EMPLOYEE_LAST_NAME,
+                SRC.EMPLOYEE_POSITION,
+                SRC.EMPLOYEE_ID,
+                SRC.START_DATE,
+                SRC.END_DATE,
+                SRC.UPDATE_DATE,
+                INSERT_DATE)
+    VALUES      (EXT.TRANSACTION_ID, 
+                EXT.TRANSACTION_DATE,
+                EXT.ITEM_CODE,
+                EXT.ITEM_DESCRIPTION,
+                EXT.NUMBER_OF_ITEMS,
+                EXT.COST_PER_ITEM,
+                EXT.CUST_ID,
+                EXT.FIRST_NAME,
+                EXT.LAST_NAME,
+                EXT.ADDRESS_FULL,
+                EXT.ADDRESS_SHORT,
+                EXT.CITY,
+                EXT.COUNTRY,
+                EXT.ISO_CODE_COUNTRY,
+                EXT.PAYMENT_TYPE,
+                EXT.CHANNEL,
+                EXT.STORE_ID,
+                EXT.STORE_NAME,
+                EXT.EMPLOYEE_FIRST_NAME,
+                EXT.EMPLOYEE_LAST_NAME,
+                EXT.EMPLOYEE_POSITION,
+                EXT.EMPLOYEE_ID,
+                EXT.START_DATE,
+                EXT.END_DATE,
+                EXT.UPDATE_DATE,
+                SYSDATE);
+COMMIT;
+            EXCEPTION
+               WHEN OTHERS
+               THEN
+                  DBMS_OUTPUT.PUT_LINE ('Update table failed.');
+                ROLLBACK;
+    END PRC_LOAD_SRC_EXPRESS_BAZAAR;
+
+END PKG_LOAD_FROM_EXT_TO_SA;
+
+
+--SELECT * FROM SA_AMOCRM.SRC_GET_QUICK_STORE;
+--DROP PROCEDURE load_src_get_quick_store;

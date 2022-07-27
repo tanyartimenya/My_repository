@@ -1,0 +1,8 @@
+CREATE TABLE BL_DM.DIM_STORES (
+            STORE_SURR_ID NUMBER(38), 
+            STORE_SRC_ID NUMBER(38),
+            SOURCE_SYSTEM VARCHAR2(300),
+            SOURCE_TABLE  VARCHAR2(300),
+            STORE_NAME  VARCHAR2(300),
+            INSERT_DT DATE,
+            UPDATE_DT DATE);

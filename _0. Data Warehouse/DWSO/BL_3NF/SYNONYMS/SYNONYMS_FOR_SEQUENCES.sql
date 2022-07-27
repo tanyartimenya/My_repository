@@ -1,0 +1,12 @@
+CREATE OR REPLACE PUBLIC SYNONYM store_id_seq FOR bl_3nf.store_id_seq;
+CREATE OR REPLACE PUBLIC SYNONYM country_id_seq FOR bl_3nf.country_id_seq;
+CREATE OR REPLACE PUBLIC SYNONYM city_id_seq FOR bl_3nf.city_id_seq;
+CREATE OR REPLACE PUBLIC SYNONYM product_id_seq FOR bl_3nf.product_id_seq;
+CREATE OR REPLACE PUBLIC SYNONYM employee_position_id_seq FOR bl_3nf.employee_position_id_seq;
+CREATE OR REPLACE PUBLIC SYNONYM payment_type_id_seq FOR bl_3nf.payment_type_id_seq;
+CREATE OR REPLACE PUBLIC SYNONYM customers_geo_id_seq FOR bl_3nf.customers_geo_id_seq;
+CREATE OR REPLACE PUBLIC SYNONYM employee_id_seq FOR bl_3nf.employee_id_seq;
+CREATE OR REPLACE PUBLIC SYNONYM payment_id_seq FOR bl_3nf.payment_id_seq;
+CREATE OR REPLACE PUBLIC SYNONYM payment_type_id_seq FOR bl_3nf.payment_type_id_seq;
+CREATE OR REPLACE PUBLIC SYNONYM address_id_seq FOR bl_3nf.address_id_seq;
+CREATE OR REPLACE PUBLIC SYNONYM channel_id_seq FOR bl_3nf.channel_id_seq;

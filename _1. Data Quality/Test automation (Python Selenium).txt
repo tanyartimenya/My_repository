@@ -1,0 +1,55 @@
+#import selenium to perform browser automation
+import selenium
+
+#import some necessary modules to work with selenium functions
+from selenium import webdriver
+from time import sleep
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
+
+#open Google Chrome and Outlook
+driver = webdriver.Chrome("C:\ProgramData\Anaconda3\lib\site-packages\selenium\webdriver\common\chromedriver")
+driver.get('https://outlook.office.com/')
+wait = WebDriverWait(driver,20)
+sleep(5)
+
+#sign in Outlook
+email_field = driver.find_element(By.CSS_SELECTOR, 'input[name="loginfmt"]')
+email_field.send_keys('****@gmail.com')
+submit = driver.find_element(By.CSS_SELECTOR, 'input[type="submit"]').click()
+
+#password and DUO authentification should be passed here manually
+sleep(40)
+
+#create new message
+create_new_msg = driver.find_element(By.XPATH, '//*[@id="app"]/div/div[2]/div[2]/div[1]/div/div/div/div/div/div[1]/div[2]/div/div/button')
+create_new_msg.click()
+
+#fill the Recipuent field
+fill_to_field = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "input[aria-label=To]")))
+fill_to_field.send_keys('denis_karpenok@epam.com')
+
+#fill the Subject field
+fill_subject_field = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "input[aria-label='Add a subject']")))
+fill_subject_field.send_keys('Lab work TA')
+
+#fill the Text field
+fill_text_field = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, 'div[style="font-family: Calibri, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);"]')))
+with open("C:\\Users\Professional\PycharmProjects\selenium\Outlook_test.ipynb", "r") as file:
+    fill_text_field.send_keys(file.read())
+
+#send message
+send = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, 'button[title="Send (Ctrl+Enter)"]'))).click()
+
+#check if the messages were sent
+#check_0_step = driver.find_element(By.CSS_SELECTOR, 'i[data-icon-name="GlobalNavButton"]').click()
+check_1_step = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, 'div[title="Sent Items"]'))).click()
+
+check_2_step = driver.find_elements(By.XPATH, '//*[contains (@aria-label, "Lab work TA")]')
+
+#print Test result 
+if check_2_step == []:
+    print("Test was failed")
+else:
+    print("Test was passed") 
